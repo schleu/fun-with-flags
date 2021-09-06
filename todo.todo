@@ -1,0 +1,24 @@
+Segue abaixo as instruções do desafio, leia atentamente todos os requisitos:
+☐ Crie um projeto utilizando React e a API Graph Countries (http://testefront.dev.softplan.com.br/) seguindo as especificações abaixo.
+☐ Queremos ver a evolução do seu projeto através de seus commits.
+
+Funcionalidades esperadas:
+✔ Crie uma lista de cards para exibir os países mostrando a bandeira, o nome e a capital dele; @done(21-09-05 19:45)
+✔ Possibilite o usuário buscar países; @done(21-09-05 19:45)
+✔ Na lista, o usuário pode ir para a página de detalhes do país e ver uma lista mais completa de informações (bandeira, nome, capital, área, população e top-level domain); @done(21-09-05 19:46)
+☐ Crie um formulário para editar os dados de um país (salvando apenas no client-side);
+
+Restrições técnicas:
+✔ Utilize o create-react-app como base; @done(21-09-05 22:15)
+☐ Utilize redux para gerenciar o estado;
+✔ Utilize react-router para trocar de página; @done(21-09-05 22:15)
+☐ Utilize @testing-library/react para testes;
+
+Diferenciais:
+☐ Crie uma pipeline no GitLab; (Exemplo: build => test => deploy);
+☐ Entregar o projeto publicado e funcionando em alguma URL;
+☐ Garanta 100% de cobertura no projeto com testes unitários;
+☐ Substituir o redux pelo Local state management do Apollo Client;
+
+Desafio Super Front:
+☐ Na tela de detalhes do país, adicionar um mapa mostrando a distância entre o país e os 5 países mais próximos;

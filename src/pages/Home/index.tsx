@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react'
+import { CircleLoading } from 'react-loading-typescript'
 
-import { ContryList } from './style'
+import { ContryList, Filter } from './style'
 
+import { client } from '../../config/client-graphql'
+import gql from 'graphql-tag'
+import { Link } from 'react-router-dom'
 interface iCountries {
-    alpha2Code: string;
+    alpha3Code: string;
     name: string;
     capital: string;
     flag: {
@@ -14,130 +18,97 @@ interface iCountries {
 const Home = (): JSX.Element => {
 
     const [countries, setCountries] = useState<iCountries[]>([])
+    const [filteredCountries, setFilteredCountries] = useState<iCountries[]>([])
     const [selectedCountry, setSelectedCountry] = useState('')
+    const [filteredCountry, setFilteredCountry] = useState('')
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         async function loadCountries() {
-            setCountries([{
-                name: "Afghanistan",
-                alpha2Code: "AF",
-                capital: "Kabul",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/afg.svg"
-                }
-            },
-            {
-                name: "Åland Islands",
-                alpha2Code: "AX",
-                capital: "Mariehamn",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/ala.svg"
-                }
-            },
-            {
-                name: "Albania",
-                alpha2Code: "AL",
-                capital: "Tirana",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/alb.svg"
-                }
-            },
-            {
-                name: "Algeria",
-                alpha2Code: "DZ",
-                capital: "Algiers",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/dza.svg"
-                }
-            },
-            {
-                name: "American Samoa",
-                alpha2Code: "AS",
-                capital: "Pago Pago",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/asm.svg"
-                }
-            },
-            {
-                name: "Andorra",
-                alpha2Code: "AD",
-                capital: "Andorra la Vella",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/and.svg"
-                }
-            },
-            {
-                name: "Angola",
-                alpha2Code: "AO",
-                capital: "Luanda",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/ago.svg"
-                }
-            },
-            {
-                name: "Anguilla",
-                alpha2Code: "AI",
-                capital: "The Valley",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/aia.svg"
-                }
-            },
-            {
-                name: "Antarctica",
-                alpha2Code: "AQ",
-                capital: "",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/ata.svg"
-                }
-            },
-            {
-                name: "Antigua and Barbuda",
-                alpha2Code: "AG",
-                capital: "Saint John's",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/atg.svg"
-                }
-            },
-            {
-                name: "Argentina",
-                alpha2Code: "AR",
-                capital: "Buenos Aires",
-                flag: {
-                    svgFile: "https://restcountries.eu/data/arg.svg"
-                }
-            }])
+            const countries = await client.query({
+                query: gql`
+                    query{
+                        Country {
+                            name
+                            alpha3Code
+                            capital
+                            flag {
+                                svgFile
+                            }
+                        }
+                    }
+                `
+              })
+            setCountries(countries.data['Country'])
+            filterCountry(filteredCountry)            
         }
 
         loadCountries()
-    })
+    },[])
 
-    const handleCountry = (alpha2Code: string) => {
-        setSelectedCountry(alpha2Code)
+    useEffect(()=>{
+        if(countries.length === 0){
+            setLoading(!loading)
+        }
+    },[countries])
+
+    const filterCountry = (name: string) => {
+        console.log(countries)
+        if(name !== ''){
+
+            const filteredCountries = countries.filter(country => {
+                return country.name.toLowerCase().startsWith(filteredCountry)
+            })
+        
+            setFilteredCountries(filteredCountries);
+        }else{
+            setFilteredCountries(countries);
+        }
+
+        setFilteredCountry(name)
     }
 
-    return (
-        <ContryList>
-            {countries.map(country => {
-                return (
-                    <li
-                        key={country.alpha2Code}
-                        onClick={() => handleCountry(country.alpha2Code)}
-                    >
-                        <img src={country.flag.svgFile} alt={country.name} />
-                        <footer>
-                            <div>
-                                <strong>Name:</strong>
-                                {country.name}
-                            </div>
-                            <div>
-                                <strong>Capital:</strong>
-                                {country.capital}
-                            </div>
-                        </footer>
-                    </li>
-                )
-            })}
-        </ContryList>
+    const handleCountry = (alpha3Code: string) => {
+        setSelectedCountry(alpha3Code)
+    }
+
+
+    return(
+        <>
+            <Filter>
+                <input 
+                    value={filteredCountry}
+                    id="filter" 
+                    type="search"
+                    placeholder="Filter" 
+                    onChange={(e: React.FormEvent<HTMLInputElement>)=>{filterCountry(e.currentTarget.value)}}
+                />
+                {selectedCountry}
+            </Filter>
+            <ContryList>
+                {filteredCountries.map(country => {
+                    return (
+                        <li
+                            key={country.alpha3Code}
+                        >
+                            <Link to={country.alpha3Code}>
+                                <img src={country.flag.svgFile} alt={country.name} />
+                                <footer>
+                                    <div>
+                                        <strong>Name:</strong>
+                                        {country.name}
+                                    </div>
+                                    <div>
+                                        <strong>Capital:</strong>
+                                        {country.capital}
+                                    </div>
+                                </footer>
+                            </Link>
+                        </li>
+                    )
+                })}
+            </ContryList>
+        </>
     )
 }
 

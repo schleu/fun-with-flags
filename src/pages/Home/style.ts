@@ -8,18 +8,19 @@ export const ContryList = styled.ul`
     list-style: none;
 
     li{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-
         border-radius: 5px;
         background-color: #E0E0E0;
         cursor: pointer;
         transition: background-color 0.2s;
-
+        
         &:hover{
             background-color: #E0E0E0AA;
+        }
+        a{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
         }
 
         img{
@@ -42,5 +43,21 @@ export const ContryList = styled.ul`
                 }
             }
         }
+    }
+`;
+
+export const Filter = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
+
+    input{
+        width: 500px;
+        font-size: 25px;
+        padding: 5px 15px;
+        border-radius: 5px;
+        border-color: #eee;
     }
 `;

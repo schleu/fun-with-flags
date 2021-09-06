@@ -29,4 +29,9 @@ button{
     cursor: pointer;
 }
 
+a{
+    color: inherit;
+    text-decoration: none;
+}
+
 `;
