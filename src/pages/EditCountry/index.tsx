@@ -15,14 +15,14 @@ interface iCountry {
     population: number;
     flag: {
         svgFile: string;
-    }
+    };
     topLevelDomains: {
         name: string;
-    }
+    };
     location: {
         latitude: string;
         longitude: string;
-    }
+    };
 }
 
 interface iParam{

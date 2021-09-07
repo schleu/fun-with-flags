@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { CircleLoading } from 'react-loading-typescript'
+import { Link } from 'react-router-dom'
+import gql from 'graphql-tag'
 
 import { ContryList, Filter } from './style'
-
 import { client } from '../../config/client-graphql'
-import gql from 'graphql-tag'
-import { Link } from 'react-router-dom'
+
 interface iCountries {
     alpha3Code: string;
     name: string;
@@ -14,9 +13,7 @@ interface iCountries {
         svgFile: string;
     }
 }
-
 const Home = (): JSX.Element => {
-
     const [countries, setCountries] = useState<iCountries[]>([])
     const [filteredCountries, setFilteredCountries] = useState<iCountries[]>([])
     const [selectedCountry, setSelectedCountry] = useState('')
@@ -40,16 +37,13 @@ const Home = (): JSX.Element => {
                 `
               })
             setCountries(countries.data['Country'])
-            filterCountry(filteredCountry)            
         }
 
         loadCountries()
     },[])
 
     useEffect(()=>{
-        if(countries.length === 0){
-            setLoading(!loading)
-        }
+        filterCountry(filteredCountry)
     },[countries])
 
     const filterCountry = (name: string) => {
@@ -85,6 +79,7 @@ const Home = (): JSX.Element => {
                 />
                 {selectedCountry}
             </Filter>
+            
             <ContryList>
                 {filteredCountries.map(country => {
                     return (
