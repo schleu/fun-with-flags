@@ -1,5 +1,5 @@
 Segue abaixo as instruções do desafio, leia atentamente todos os requisitos:
-☐ Crie um projeto utilizando React e a API Graph Countries (http://testefront.dev.softplan.com.br/) seguindo as especificações abaixo.
+✔ Crie um projeto utilizando React e a API Graph Countries (http://testefront.dev.softplan.com.br/) seguindo as especificações abaixo. @done(21-09-06 13:31)
 ☐ Queremos ver a evolução do seu projeto através de seus commits.
 
 Funcionalidades esperadas:
@@ -20,5 +20,6 @@ Diferenciais:
 ☐ Garanta 100% de cobertura no projeto com testes unitários;
 ☐ Substituir o redux pelo Local state management do Apollo Client;
 
-Desafio Super Front:
-☐ Na tela de detalhes do país, adicionar um mapa mostrando a distância entre o país e os 5 países mais próximos;
+Desafio Super Front: 
+☐ Na tela de detalhes do país, adicionar um mapa 
+☐ Mostrando a distância entre o país e os 5 países mais próximos;
